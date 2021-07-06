@@ -8,34 +8,19 @@
         <img src="../assets/imgs/yunlogo.png" class="loginImg" />
         <div class="loginInputBox">
           <!-- 表单区 -->
-          <el-form
-            :model="loginForm"
-            :rules="loginFormRules"
-            label-width="0px"
-            class="login_form"
-            ref="loginFormRef"
-          >
+          <el-form :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form" ref="loginFormRef">
             <!-- 用户名 -->
             <el-form-item prop="username">
-              <el-input
-                v-model="loginForm.username"
-                placeholder="用户名/邮箱"
-                prefix-icon="iconfont icon-renwu"
-              >
+              <el-input v-model="loginForm.username" placeholder="用户名/邮箱" prefix-icon="iconfont icon-renwu">
               </el-input>
             </el-form-item>
             <!-- 密码 -->
             <el-form-item prop="password">
-              <el-input
-                type="password"
-                v-model="loginForm.password"
-                placeholder="用户密码"
-                prefix-icon="iconfont icon-suo"
-              >
+              <el-input type="password" v-model="loginForm.password" placeholder="用户密码" prefix-icon="iconfont icon-suo">
               </el-input>
             </el-form-item>
             <el-form-item>
-              <el-checkbox label="记住密码" name="type"></el-checkbox>
+              <el-checkbox label="记住密码" name="type" checked="checked"></el-checkbox>
             </el-form-item>
             <!-- 按钮 -->
             <el-form-item class="btns">
