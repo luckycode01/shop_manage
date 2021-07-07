@@ -32,9 +32,9 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template slot-scope="">
+          <template slot-scope="scope">
             <!-- 编辑 -->
-            <el-button type="primary" icon="el-icon-edit" size="mini" circle></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" circle @click="showEditDialog(scope.row.id)"></el-button>
             <!-- 删除 -->
             <el-button type="danger" icon="el-icon-delete" size="mini" circle></el-button>
             <!-- 分配角色 -->
@@ -49,8 +49,7 @@
       </el-pagination>
     </el-card>
     <!-- 添加用户的对话框 -->
-    <el-dialog title="提示" :visible.sync="addDialogVisible" width="50%" @close="closeAddDialog">
-
+    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="closeAddDialog">
       <el-form ref="addFromRef" :model="addFrom" :rules="addFromRules" label-width="70px">
         <el-form-item label="用户名" prop='username'>
           <el-input v-model="addFrom.username"></el-input>
@@ -65,10 +64,21 @@
           <el-input v-model="addFrom.mobile"></el-input>
         </el-form-item>
       </el-form>
-
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addUser">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 修改用户对话框 -->
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%">
+      <!-- <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="活动名称">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+      </el-form> -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -78,20 +88,20 @@
 <script>
 export default {
   data() {
+    // 邮件验证
     const cheakEmail = (rule, value, cb) => {
       const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (emailReg.test(value)) {
         return cb();
       }
-
       cb(new Error("邮箱不合法"))
     };
+    // 手机号验证
     const checkMobile = (rule, value, cb) => {
       const phoneReg = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
       if (phoneReg.test(value)) {
         return cb();
       }
-
       cb(new Error("请输入正确的手机号"))
     };
     return {
@@ -103,8 +113,11 @@ export default {
       userList: [],
       total: 0,   //数据总条数
 
-      // 是否显示对话框
+      // 是否显示添加用户对话框
       addDialogVisible: false,
+      // 是否显示修改用户对话框
+      editDialogVisible: false,
+
       // 添加用户的表单数据
       addFrom: {
         username: '',
@@ -193,8 +206,12 @@ export default {
         getUserList();
 
       })
+    },
+    //修改用户新信息
+    showEditDialog(id) {
+      this.editDialogVisible = true;
+      console.log(id);
     }
-
   }
 
 }
