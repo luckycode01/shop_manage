@@ -35,7 +35,7 @@
 </template>
 
 <script>
-// import { reqLogin } from "../api/index"
+import { reqLogin } from "../api/index"
 export default {
   data() {
     return {
@@ -68,12 +68,9 @@ export default {
       /*valid表示验证是否成功  */
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.post('login', this.loginForm);
-        // if (res.meta.status !== 200) return this.$message.error("Wrong user name or password")
+        const res = await reqLogin(this.loginForm)
         if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
         this.$message.success('welcome login')
-        // const result = await reqLogin(this.loginForm)
-        // console.log(result);
         // 将登录成功的token保存到sessionstorage
         window.sessionStorage.setItem('token', res.data.token);
         // 编程式导航跳转

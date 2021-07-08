@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { reqMenus } from '../api'
 export default {
   data() {
     return {
@@ -75,7 +76,7 @@ export default {
       this.$router.push('/login');
     },
     async getMenuList() {
-      const { data: res } = await this.$http.get('menus');
+      const res = await reqMenus();
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
       this.menuList = res.data;
 
