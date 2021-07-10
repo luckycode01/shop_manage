@@ -17,7 +17,8 @@ export const reqSearchUser = id => request.get(`users/${id}`)
 export const reqEditUserInfo = (id, args) => request.put(`users/${id}`, args)
 // 删除用户
 export const reqDeleteUser = id => request.delete('users/' + id)
-// export const reqLogin = loginForm => request.post('login',  loginForm )
+// 获取权限列表
+export const reqGetRightList = () => request.get('rights/list')
 // export const reqLogin = loginForm => request.post('login',  loginForm )
 // export const reqLogin = loginForm => request.post('login',  loginForm )
 // export const reqLogin = loginForm => request.post('login',  loginForm )
