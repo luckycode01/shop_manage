@@ -19,8 +19,25 @@ export const reqEditUserInfo = (id, args) => request.put(`users/${id}`, args)
 export const reqDeleteUser = id => request.delete('users/' + id)
 // 获取权限列表
 export const reqGetRightList = () => request.get('rights/list')
-// export const reqLogin = loginForm => request.post('login',  loginForm )
-// export const reqLogin = loginForm => request.post('login',  loginForm )
-// export const reqLogin = loginForm => request.post('login',  loginForm )
-// export const reqLogin = loginForm => request.post('login',  loginForm )
-// export const reqLogin = loginForm => request.post('login',  loginForm )
+// 所有权限列表——树形
+export const reqGetRightTree = () => request.get('rights/tree')
+// 获取角色列表
+export const reqGetRolesList = () => request.get('roles')
+// 角色授权
+export const reqRoleEmpower = (roleId, rids) =>
+  request.post(`roles/${roleId}/rights`, rids)
+// 删除角色指定权限
+export const reqDeleteRight = (roleId, rightId) =>
+  request.delete(`roles/${roleId}/rights/${rightId}`)
+// 分配角色请求
+export const reqSetRole = (id, rid) => request.put(`users/${id}/role`, rid)
+// 添加角色
+export const reqAddRole = roleInfo => request.post('roles', roleInfo)
+// 编辑角色   根据 ID 查询角色
+export const reqSearchRoleId = id => request.get('roles/' + id)
+//
+//编辑角色提交
+export const reqSubRoleInfo = (id, roleInfo) =>
+  request.put('roles/' + id, roleInfo)
+//删除角色
+export const reqDeleteRole = id => request.delete('roles/' + id)

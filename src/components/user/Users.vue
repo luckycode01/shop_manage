@@ -31,7 +31,7 @@
             <el-switch v-model="scope.row.mg_state" @change="userStateChange(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150px">
           <template slot-scope="scope">
             <!-- 编辑 -->
             <el-button type="primary" icon="el-icon-edit" size="mini" circle @click="showEditDialog(scope.row.id)"></el-button>
@@ -39,7 +39,7 @@
             <el-button type="danger" icon="el-icon-delete" size="mini" circle @click='deleteUser(scope.row.id)'></el-button>
             <!-- 分配角色 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable='false'>
-              <el-button type="warning" icon="el-icon-setting" size="mini" circle></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" circle @click='setRole(scope.row)'></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -87,6 +87,23 @@
         <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 分配角色 -->
+    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close='setRoleDialogClose'>
+      <div>
+        <p>当前用户：{{userInfo.username}}</p>
+        <p>当前角色：{{userInfo.role_name}}</p>
+        <p>分配角色：
+          <el-select v-model="selectRoleId" placeholder="请选择">
+            <el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
+      </span>
+    </el-dialog>
 
   </div>
 
@@ -98,7 +115,10 @@ import {
   reqChangeState,
   reqSearchUser,
   reqEditUserInfo,
-  reqDeleteUser
+  reqDeleteUser,
+  reqGetRolesList,
+  reqSetRole
+
 } from "../../api"
 
 export default {
@@ -160,7 +180,14 @@ export default {
       // 是否显示修改用户对话框
       editDialogVisible: false,
       // 查询到的用户数据
-      editForm: {}
+      editForm: {},
+      //分配角色对话框
+      setRoleDialogVisible: false,
+      // 需要被分配角色的用户信息
+      userInfo: {},
+      // 角色列表
+      roleList: [],
+      selectRoleId: '',
     }
   },
   created() {
@@ -227,7 +254,6 @@ export default {
       }
       this.editForm = res.data;
       this.editDialogVisible = true;
-      console.log(this.editForm);
     },
     // 关闭后重置修改用户信息对话框表单，
     closeEditDialog() {
@@ -248,17 +274,46 @@ export default {
         this.editDialogVisible = false;
       })
     },
+    // 删除用户
     async deleteUser(id) {
+      // 确认删除用户
       const confirmData = await this.$confirm('是否永久删除该用户,该操作不可逆是否继续', '删除', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).catch((err) => err);
+      //根据返回值，判断是取消还是确认删除
       if (confirmData !== "confirm") return this.$message.info("您已取消删除");
+      // 发送删除请求
       const res = await reqDeleteUser(id);
       if (res.meta.status !== 200) return this.$message.error('删除失败')
       this.$message.success(res.meta.msg);
+      // 重新加载用户列表
       this.getUserList();
+    },
+    // 分配角色
+    async setRole(userInfo) {
+      this.userInfo = userInfo;
+      this.setRoleDialogVisible = true;
+      const res = await reqGetRolesList();
+      if (res.meta.status !== 200) return this.message.error('角色获取失败');
+      this.roleList = res.data;
+    },
+    // 点击确认按钮，分配 角色
+    async saveRoleInfo() {
+      if (!this.selectRoleId) return this.$message.error('请选择分配的角色')
+      const res = await reqSetRole(this.userInfo.id, { rid: this.selectRoleId });
+      if (res.meta.status !== 200) return this.$message.error('更新角色失败');
+      this.$message.success(res.meta.msg);
+      // 关闭对话框
+      this.setRoleDialogVisible = false;
+      // 刷新列表
+      this.getUserList();
+    },
+    // 监视对话框是否关闭
+    setRoleDialogClose() {
+      this.selectRoleId = ''
+      this.userInfo = {}
     }
   }
 

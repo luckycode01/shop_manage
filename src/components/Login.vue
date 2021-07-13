@@ -31,10 +31,13 @@
         </div>
       </div>
     </section>
+    <canvas id="theCanvas"></canvas>
   </div>
+
 </template>
 
 <script>
+import canvan from '../assets/js/canva'
 import { reqLogin } from "../api/index"
 export default {
   data() {
@@ -59,6 +62,9 @@ export default {
       }
     }
   },
+  mounted() {
+    canvan();
+  },
   methods: {
     // 重置登录表单
     resetLoginForm() {
@@ -76,7 +82,8 @@ export default {
         // 编程式导航跳转
         this.$router.push('/home');
       });
-    }
+    },
+
   }
 }
 </script>
@@ -114,13 +121,14 @@ export default {
   width: 550px;
   height: 400px;
   background-color: #ffffff0f;
-  border-radius: -1px;
+  border-radius: 10px;
   position: absolute;
   top: 50%;
   left: 50%;
   margin-left: -275px;
   transition: ease all 0.5s;
   box-shadow: 0 5px 10px #4a8cef59;
+  z-index:111;
 }
 
 .loginInputBox {
@@ -139,5 +147,12 @@ export default {
 .btns {
   display: flex;
   justify-content: flex-end;
+}
+canvas {
+  /* display: block; */
+  /* position: absolute; */
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 </style>
