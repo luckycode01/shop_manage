@@ -1,6 +1,8 @@
 import Vue from 'vue'
-import App from './App.vue'
 import router from './router'
+import TreeTable from 'vue-table-with-tree-grid'
+
+import App from './App.vue'
 import './plugins/element.js'
 
 // // 导入axios
@@ -19,6 +21,7 @@ import './assets/css/global.css'
 import './assets/css/iconfont.css'
 
 Vue.config.productionTip = false
+Vue.component('tree-table', TreeTable)
 
 new Vue({
   router,

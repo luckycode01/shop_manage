@@ -7,6 +7,7 @@ import Welcome from '../components/Welcome.vue'
 import Users from '../components/user/Users.vue'
 import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
+import Cate from '../components/goods/Cate.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -23,22 +24,11 @@ const routes = [
     component: Home,
     redirect: '/welcome',
     children: [
-      {
-        path: '/welcome',
-        component: Welcome
-      },
-      {
-        path: '/users',
-        component: Users
-      },
-      {
-        path: '/rights',
-        component: Rights
-      },
-      {
-        path: '/roles',
-        component: Roles
-      }
+      { path: '/welcome', component: Welcome },
+      { path: '/users', component: Users },
+      { path: '/rights', component: Rights },
+      { path: '/roles', component: Roles },
+      { path: '/categories', component: Cate }
     ]
   }
 ]
@@ -50,7 +40,7 @@ const router = new VueRouter({
 // 配置路由守卫，未登录，或没有token强制跳转到登录页
 /**
  * to 将要访问的路径
- * from 代表从那个路径条抓来
+ * from 代表从那个路径跳转来
  * next 放行
  */
 router.beforeEach((to, from, next) => {

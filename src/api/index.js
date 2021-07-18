@@ -35,9 +35,26 @@ export const reqSetRole = (id, rid) => request.put(`users/${id}/role`, rid)
 export const reqAddRole = roleInfo => request.post('roles', roleInfo)
 // 编辑角色   根据 ID 查询角色
 export const reqSearchRoleId = id => request.get('roles/' + id)
-//
 //编辑角色提交
 export const reqSubRoleInfo = (id, roleInfo) =>
   request.put('roles/' + id, roleInfo)
 //删除角色
 export const reqDeleteRole = id => request.delete('roles/' + id)
+// 商品分类数据列表
+export const reqGetCateList = queryInfo =>
+  request.get('categories', { params: queryInfo })
+// 获取父级分类列表
+export const reqParentCateList = () =>
+  request.get('categories', { params: { type: 2 } })
+// 添加分类
+export const reqAddCate = cateFrom => request.post('categories', cateFrom)
+// 根据ID查询分类信息
+export const reqIdSearchCate = id => request.get('categories/' + id)
+// 发送修改请求
+export const reqIdEditCate = (id, cat_name) =>
+  request.put('categories/' + id, cat_name)
+  // 删除分类
+export const reqDeleteCate = id => request.delete('categories/' + id)
+// export const reqAddCate = cateFrom => request.post('categories',cateFrom)
+// export const reqAddCate = cateFrom => request.post('categories',cateFrom)
+// export const reqAddCate = cateFrom => request.post('categories',cateFrom)
