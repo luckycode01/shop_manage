@@ -71,7 +71,7 @@
 <script>
 import {
   reqGetCateList,
-  reqParentCateList,
+  // reqParentCateList,
   reqAddCate,
   reqIdSearchCate,
   reqIdEditCate,
@@ -82,7 +82,7 @@ export default {
     return {
       // 查询分类请求参数
       queryInfo: {
-        id: 3,
+        type: 3,
         pagenum: 1,
         pagesize: 5,
       },
@@ -184,9 +184,10 @@ export default {
       this.addCateDialogVisible = true
     },
     // 获取父级分类列表
-
     async getParentCateList() {
-      const res = await reqParentCateList()
+      // const res = await reqParentCateList(2)
+      const queryInfo = { type: 2 };
+      const res = await reqGetCateList(queryInfo);
       if (res.meta.status !== 200)
         return this.$message.error('父级分类获取失败')
       this.parentCateList = res.data
