@@ -71,5 +71,8 @@ export const reqSubmitParams = (id, attrId, attrInfo) =>
 // 删除参数
 export const reqDeleteParams = (id, attrId) =>
   service.delete(`categories/${id}/attributes/${attrId}`)
-// export const reqAddCate = cateFrom => service.post('categories',cateFrom)
+
+// 获取商品列表数据
+export const reqGetGoodsList = queryInfo =>
+  service.get('goods', { params: queryInfo })
 // export const reqAddCate = cateFrom => service.post('categories',cateFrom)

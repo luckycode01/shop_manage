@@ -4,6 +4,9 @@ import TreeTable from 'vue-table-with-tree-grid'
 
 import App from './App.vue'
 import './plugins/element.js'
+import './assets/css/global.css'
+import './assets/css/iconfont.css'
+import './utils/dateFormat'
 
 // // 导入axios
 // import axios from 'axios'
@@ -16,9 +19,6 @@ import './plugins/element.js'
 // })
 // // 绑定到vue的原型对象上
 // Vue.prototype.$http = axios
-
-import './assets/css/global.css'
-import './assets/css/iconfont.css'
 
 Vue.config.productionTip = false
 Vue.component('tree-table', TreeTable)
