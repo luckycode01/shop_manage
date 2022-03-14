@@ -14,6 +14,7 @@
       <!-- 侧边栏 -->
       <el-aside :width="isCollapse ? '64px':'200px'">
         <div class="toggle-button" @click="toggleCollapse">{{isCollapse?'&gt;&gt;&gt;':'&lt;&lt;&lt;'}}</div>
+        <div>首页</div>
         <!-- 侧边栏菜单区域 -->
         <el-menu background-color="#333744" text-color="#fff" active-text-color="#409EFF" :unique-opened="true" :collapse="isCollapse" :collapse-transition="false" router :default-active='activePath'>
           <!-- 一级菜单 -->
@@ -48,6 +49,7 @@
 
 <script>
 import { reqMenus } from '../api'
+import WelcomeVue from './Welcome.vue';
 export default {
   data() {
     return {
@@ -78,8 +80,7 @@ export default {
     async getMenuList() {
       const res = await reqMenus();
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
-      this.menuList = res.data;
-
+      this.menuList = res.data
     },
     // 点击按钮切换左边的按钮隐藏与展开
     toggleCollapse() {
